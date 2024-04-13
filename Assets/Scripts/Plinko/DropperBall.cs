@@ -39,18 +39,39 @@ namespace RobbieWagnerGames.Plinko
 
         private PlayerControls playerControls;
 
-        private Coroutine finishRunCo = null;
+        public static DropperBall Instance {get; private set;}
 
         private void Awake()
         {
+            if (Instance != null && Instance != this) 
+            { 
+                Destroy(gameObject); 
+            } 
+            else 
+            { 
+                Instance = this; 
+            } 
+            
             rb2d.gravityScale = 0;
             rb2d.velocity = Vector2.zero;
             playerControls = new PlayerControls();
             playerControls.Dropper.DropBall.performed += DropBall;
             //playerControls.Dropper.Enable();
             GameManager.Instance.OnReset += Reset;
+            GameManager.Instance.OnFinishRun += FinishRun;
             DisableControls();
             //ChangeDropState(DropState.WAITING);
+        }
+
+        private void FinishRun()
+        {
+            StopFalling();
+            coll.enabled = false;
+        }
+
+        private void Update()
+        {
+            Camera.main.transform.position = new Vector3(0, transform.position.y, 0) +  cameraOffset;
         }
 
         private void EnableControls() => playerControls.Dropper.Enable();
@@ -72,36 +93,16 @@ namespace RobbieWagnerGames.Plinko
                 EnterPauseState();
                 break;
                 case DropState.FINISHED:
-                FinishRun();
+                GameManager.Instance.FinishRun();
                 break;
                 default:
                 break;
             }
-        }
 
-        private void FinishRun()
-        {
-            if(finishRunCo == null)
-                finishRunCo = StartCoroutine(FinishRunCo());
+            OnChangeDropState?.Invoke(newDropState);
         }
-        
-        private IEnumerator FinishRunCo()
-        {
-            StopFalling();
-            rb2d.velocity = new Vector2(0, -5);
-            coll.enabled = false;
-            rb2d.gravityScale = 1;
-            Camera.main.transform.SetParent(null);
-            yield return new WaitForSeconds(2);
-            yield return StartCoroutine(UIManager.Instance.FadeInScreenCover());
-            Camera.main.transform.SetParent(transform);
-            Camera.main.transform.localPosition = cameraOffset;
-            Reset();
-            coll.enabled = true;
-            yield return StartCoroutine(UIManager.Instance.FadeOutScreenCover());
-
-            finishRunCo = null;
-        }
+        public delegate void ChangeDropStateDelegate(DropState state);
+        public event ChangeDropStateDelegate OnChangeDropState;
 
         private void EnterPauseState()
         {
@@ -109,7 +110,7 @@ namespace RobbieWagnerGames.Plinko
             StopFalling();
         }
 
-        private void Reset()
+        public void Reset()
         {
             StopFalling();
             transform.position = startPos;
@@ -118,7 +119,7 @@ namespace RobbieWagnerGames.Plinko
             Debug.Log("reset");
         }
 
-        private void StopFalling()
+        public void StopFalling()
         {
             rb2d.gravityScale = 0;
             rb2d.velocity = Vector2.zero;
@@ -133,8 +134,6 @@ namespace RobbieWagnerGames.Plinko
 
         private IEnumerator SwingCo(Vector2 middle, float landingLength)
         {
-            Camera.main.transform.SetParent(null);
-            yield return Camera.main.transform.DOMove((Vector3) middle + cameraOffset, .5f).SetEase(Ease.Linear).WaitForCompletion();
             bool swingRight = true;
             Vector2 maxPos = middle + (Vector2.right * landingLength/2);
             Vector2 minPos = middle + (Vector2.left * landingLength/2);
@@ -165,15 +164,9 @@ namespace RobbieWagnerGames.Plinko
             if(currentDropState == DropState.WAITING || currentDropState == DropState.FLOATING || currentDropState == DropState.PAUSED)
             {
                 ChangeDropState(DropState.FALLING);
+                coll.enabled = true;
                 Debug.Log("fall");
-                StartCoroutine(ParentCameraToBall());
             }
-        }
-
-        private IEnumerator ParentCameraToBall()
-        {
-            yield return Camera.main.transform.DOMove(transform.position + cameraOffset, .5f).SetEase(Ease.Linear).WaitForCompletion();
-            Camera.main.transform.SetParent(transform);
         }
 
         private void EnterFallState()

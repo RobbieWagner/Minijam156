@@ -35,6 +35,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""8c1d0a36-50d1-425c-a139-a48af9334662"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,127 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DropBall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7873d903-137f-412c-addf-8058e7413f32"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""233e2d77-013c-417a-9d30-169144f3c715"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""abbbabcf-4bdc-4d19-a740-55feaffa47ef"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""72c2c884-ad56-438b-9ac2-d04bab9fc614"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0a1537f5-913b-41cc-b6f6-b1ec14a6bb7a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""e53e2278-82d2-4488-a5c2-6a600ba3ce9b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1899e8c1-fccf-4f3e-9dc0-ae00fa4dd21f"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""2f52bf3b-dfb1-43d5-8fc0-729f6e711fd7"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""48ea8d31-d057-4270-ac59-1d3fcd2d8df7"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5843f359-1d3c-442f-84f2-05cbd63750bc"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b3e212d-e2c2-4b1f-858c-645b31a94aad"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -151,6 +281,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Dropper
         m_Dropper = asset.FindActionMap("Dropper", throwIfNotFound: true);
         m_Dropper_DropBall = m_Dropper.FindAction("DropBall", throwIfNotFound: true);
+        m_Dropper_Move = m_Dropper.FindAction("Move", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_ExitMenu = m_Menu.FindAction("ExitMenu", throwIfNotFound: true);
@@ -216,11 +347,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dropper;
     private List<IDropperActions> m_DropperActionsCallbackInterfaces = new List<IDropperActions>();
     private readonly InputAction m_Dropper_DropBall;
+    private readonly InputAction m_Dropper_Move;
     public struct DropperActions
     {
         private @PlayerControls m_Wrapper;
         public DropperActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @DropBall => m_Wrapper.m_Dropper_DropBall;
+        public InputAction @Move => m_Wrapper.m_Dropper_Move;
         public InputActionMap Get() { return m_Wrapper.m_Dropper; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +366,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DropBall.started += instance.OnDropBall;
             @DropBall.performed += instance.OnDropBall;
             @DropBall.canceled += instance.OnDropBall;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
         }
 
         private void UnregisterCallbacks(IDropperActions instance)
@@ -240,6 +376,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DropBall.started -= instance.OnDropBall;
             @DropBall.performed -= instance.OnDropBall;
             @DropBall.canceled -= instance.OnDropBall;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
         }
 
         public void RemoveCallbacks(IDropperActions instance)
@@ -306,6 +445,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IDropperActions
     {
         void OnDropBall(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

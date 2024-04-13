@@ -1,3 +1,5 @@
+using Ink.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RobbieWagnerGames.Plinko
@@ -63,5 +65,30 @@ namespace RobbieWagnerGames.Plinko
             }
         }
         public static event StaticValueChangedDelegate OnFlowersValueChanged;
+
+        public static void EffectScore(ScoreType scoreType, int value)
+        {
+            switch(scoreType)
+            {
+                case ScoreType.SCORE:
+                RoundScore += value;
+                break;
+                case ScoreType.LEAVES:
+                Leaves += value;
+                break;
+                case ScoreType.FLOWERS:
+                Flowers += value;
+                break;  
+                default:
+                break;
+            }
+        }
+
+        public static void ResetRoundScores()
+        {
+            if(RoundScore > HighScore)
+                HighScore = RoundScore;
+            RoundScore = 0;
+        }
     }
 }
