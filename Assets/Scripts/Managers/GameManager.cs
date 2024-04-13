@@ -35,8 +35,8 @@ namespace RobbieWagnerGames.Plinko
         private void StartGame(InputAction.CallbackContext context)
         {
             playerControls.Disable();
-            mainMenuCanvas.enabled = false;
             ResetLevel();
+            mainMenuCanvas.enabled = false;
         }
 
         public void FinishRun()

@@ -28,6 +28,7 @@ namespace RobbieWagnerGames.Plinko
         [Header("General")]
         [SerializeField] private Rigidbody2D rb2d;
         [SerializeField] private Collider2D coll;
+        [SerializeField] private float maxSpeed = 25;
         [SerializeField] private Vector3 cameraOffset;
         
         [Header("Swinging")]
@@ -72,6 +73,7 @@ namespace RobbieWagnerGames.Plinko
         private void Update()
         {
             Camera.main.transform.position = new Vector3(0, transform.position.y, 0) +  cameraOffset;
+            rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
         }
 
         private void EnableControls() => playerControls.Dropper.Enable();
