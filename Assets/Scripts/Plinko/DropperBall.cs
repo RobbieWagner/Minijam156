@@ -51,7 +51,7 @@ namespace RobbieWagnerGames.Plinko
             { 
                 Instance = this; 
             } 
-            
+
             rb2d.gravityScale = 0;
             rb2d.velocity = Vector2.zero;
             playerControls = new PlayerControls();
@@ -116,7 +116,6 @@ namespace RobbieWagnerGames.Plinko
             transform.position = startPos;
             ChangeDropState(DropState.WAITING);
             StartCoroutine(SwingCo(startPos, startLandingLength));
-            Debug.Log("reset");
         }
 
         public void StopFalling()
@@ -138,7 +137,6 @@ namespace RobbieWagnerGames.Plinko
             Vector2 maxPos = middle + (Vector2.right * landingLength/2);
             Vector2 minPos = middle + (Vector2.left * landingLength/2);
             float speed = 3f;
-            Debug.Log("swing");
             
             while(currentDropState == DropState.WAITING || currentDropState == DropState.PAUSED)
             {
@@ -165,7 +163,6 @@ namespace RobbieWagnerGames.Plinko
             {
                 ChangeDropState(DropState.FALLING);
                 coll.enabled = true;
-                Debug.Log("fall");
             }
         }
 

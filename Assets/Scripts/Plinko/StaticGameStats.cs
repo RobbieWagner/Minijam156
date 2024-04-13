@@ -18,7 +18,6 @@ namespace RobbieWagnerGames.Plinko
                     return;
                 roundScore = value; 
                 OnScoreChanged?.Invoke(roundScore);
-                Debug.Log($"Score: {roundScore}");
             }
         }
         public static event StaticValueChangedDelegate OnScoreChanged;
@@ -89,6 +88,34 @@ namespace RobbieWagnerGames.Plinko
             if(RoundScore > HighScore)
                 HighScore = RoundScore;
             RoundScore = 0;
+        }
+
+        public static int GetCurrencyValue(ScoreType scoreType)
+        {
+            switch(scoreType)
+            {
+                case ScoreType.LEAVES:
+                return Leaves;
+                case ScoreType.FLOWERS:
+                return Flowers; 
+                default:
+                break;
+            }
+            return -1;
+        }
+
+        public static Color GetCurrencyColor(ScoreType scoreType)
+        {
+            switch(scoreType)
+            {
+                case ScoreType.LEAVES:
+                return new Color(0, .7f, 0f, 1f);
+                case ScoreType.FLOWERS:
+                return new Color(1, .7f, .7f, 1f);
+                default:
+                break;
+            }
+            return Color.white;
         }
     }
 }
