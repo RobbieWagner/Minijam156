@@ -23,7 +23,9 @@ namespace RobbieWagnerGames.Plinko
         [SerializeField] private Image leftArrow;
         [SerializeField] private Image rightArrow;
         [SerializeField] private TextMeshProUGUI currentSegmentText;
+        [SerializeField] private TextMeshProUGUI segmentTypeText;
         [SerializeField] private Color DISABLED_COLOR;
+        [SerializeField] private Color specialColor;
         public static DropperMenu Instance {get; private set;}
         protected override void Awake()
         {
@@ -96,6 +98,20 @@ namespace RobbieWagnerGames.Plinko
                 rightArrow.color = DISABLED_COLOR;
 
             currentSegmentText.text = $"{currentSegmentIndex+1}/{DropperManager.Instance.unlockedSegments.Count}";
+            
+            if(currentSegment.special)
+            {
+                segmentTypeText.text = $"Special Dropper Segments";
+                segmentTypeText.color = specialColor;
+                currentSegmentText.color = specialColor;
+            }
+            else
+            {
+                segmentTypeText.text = $"Unlocked Dropper segments";
+                segmentTypeText.color = Color.white;
+                currentSegmentText.color = Color.white;
+            }
+
         }
         
         [SerializeField] private Vector2 SampleLocation;

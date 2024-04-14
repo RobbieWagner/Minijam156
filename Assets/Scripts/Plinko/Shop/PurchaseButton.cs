@@ -93,6 +93,11 @@ namespace RobbieWagnerGames.Plinko
                     currentItemIndex++;
                     CheckColor();
                     ShopMenu.Instance.UpdateShop();
+                    BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.Purchase);
+                }
+                else
+                {
+                    BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.UIFail);
                 }
             }
         }

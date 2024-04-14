@@ -90,6 +90,7 @@ namespace RobbieWagnerGames.Common
                 button.NavigateAway();
             if(menuButtons.Any())
                 menuButtons[activeButtonIndex].NavigateTo();
+            BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.UINav);
         }
 
         protected virtual void NavigateMenu(InputAction.CallbackContext context)

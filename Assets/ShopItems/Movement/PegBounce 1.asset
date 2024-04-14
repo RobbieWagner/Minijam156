@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PegBounce 1
   m_EditorClassIdentifier: 
   _name: Bounciness +
-  cost: 50
+  cost: 150
   currencyType: 1
   effects:
   - rid: 5890670160077914112

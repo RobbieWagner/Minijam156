@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using RobbieWagnerGames.Common;
 
 namespace RobbieWagnerGames.Plinko
 {
@@ -62,6 +63,7 @@ namespace RobbieWagnerGames.Plinko
                     currentDisplayedScore++;
                     UpdateText(currentDisplayedScore.ToString(), text);
                     yield return null;
+                    //BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.PointGain);
                 }
                 currentDisplayedScore = newValue;
                 UpdateText(currentDisplayedScore.ToString(), text);
@@ -69,6 +71,7 @@ namespace RobbieWagnerGames.Plinko
             }
             else if(scoreType == ScoreType.LEAVES)
             {
+                BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.LeafGain);
                 while(currentDisplayedLeaves < newValue)
                 {
                     currentDisplayedLeaves++;
@@ -81,6 +84,7 @@ namespace RobbieWagnerGames.Plinko
             }
             else if(scoreType == ScoreType.FLOWERS)
             {
+                BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.FlowerGain);
                 while(currentDisplayedFlowers < newValue)
                 {
                     currentDisplayedFlowers++;

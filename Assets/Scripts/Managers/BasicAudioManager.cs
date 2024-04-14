@@ -10,9 +10,13 @@ namespace RobbieWagnerGames.Common
         UIExit = 2,
         Bounce = 3,
         PointGain = 4,
-        Purchase = 5,
-        Music = 6
+        LeafGain = 5,
+        FlowerGain = 6,
+        Purchase = 7,
+        Music = 8,
+        UIFail = 9
     }
+
     public class BasicAudioManager : MonoBehaviour
     {
         [SerializeField][SerializedDictionary("source type", "source")] private SerializedDictionary<AudioSourceName, AudioSource> audioSources;
@@ -36,6 +40,14 @@ namespace RobbieWagnerGames.Common
             if(audioSources.ContainsKey(name) && audioSources[name] != null)
             {
                 audioSources[name].Play();
+            }
+        }
+
+        public void StopAudioSource(AudioSourceName name)
+        {
+            if(audioSources.ContainsKey(name) && audioSources[name] != null)
+            {
+                audioSources[name].Stop();
             }
         }
     }

@@ -136,6 +136,7 @@ namespace RobbieWagnerGames.Plinko
                     listButton?.NavigateAway();
             button.NavigateTo();
             descriptionText.text = button.itemDescription;
+            BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.UINav);
         }
 
         public override void DisableMenu(bool returnToPreviousMenu = true)

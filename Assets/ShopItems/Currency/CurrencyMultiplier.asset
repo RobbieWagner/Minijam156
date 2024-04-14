@@ -23,6 +23,6 @@ MonoBehaviour:
     - rid: 5890670149080711169
       type: {class: AddCurrencyMultiplier, ns: , asm: Assembly-CSharp}
       data:
-        magnitude: 1.1
+        magnitude: 1.5
         associatedColor: {r: 1, g: 0.5990566, b: 0.92447823, a: 1}
         icon: {fileID: 21300000, guid: 3d314ffa8c80db94bbede7b4ccd649ee, type: 3}
