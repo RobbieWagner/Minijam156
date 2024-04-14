@@ -26,4 +26,4 @@ MonoBehaviour:
         magnitude: 0
         associatedColor: {r: 0, g: 0.7490196, b: 0, a: 1}
         icon: {fileID: 0}
-        rowPrefab: {fileID: 0}
+        rowPrefab: {fileID: 3723634304571154253, guid: 1781480264d82f64dbe8f6d1a283d6dc, type: 3}

@@ -63,6 +63,7 @@ namespace RobbieWagnerGames.Plinko
 
         [Header("Animation")]
         public UnitAnimator unitAnimator;
+        [SerializeField] private SpriteRenderer renderer;
 
         private PlayerControls playerControls;
 
@@ -254,6 +255,8 @@ namespace RobbieWagnerGames.Plinko
             {
                 if(swingRight)
                 {
+                    renderer.flipX = false;
+                    gliderSprite.flipX = false;
                     transform.position = Vector2.MoveTowards(transform.position, maxPos, speed * Time.deltaTime);
                     yield return null;
                     if(Vector2.Distance(transform.position, maxPos) < .01f)
@@ -261,6 +264,8 @@ namespace RobbieWagnerGames.Plinko
                 }
                 else
                 {
+                    renderer.flipX = true;
+                    gliderSprite.flipX = true;
                     transform.position = Vector2.MoveTowards(transform.position, minPos, speed * Time.deltaTime);
                     yield return null;
                     if(Vector2.Distance(transform.position, minPos) < .01f)

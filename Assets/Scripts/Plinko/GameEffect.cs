@@ -64,6 +64,7 @@ public class AddRow : GameEffect
     {
         base.ApplyPurchaseEffect();
         DropperManager.Instance.unlockedSegments.Add(rowPrefab);
+        DropperManager.Instance.SortDropperSegments();
     }
 }
 

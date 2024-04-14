@@ -60,6 +60,7 @@ namespace RobbieWagnerGames.Plinko
         protected virtual IEnumerator BumpCo()
         {
             unitAnimator.ChangeAnimationState(UnitAnimationState.Bumping);
+            BasicAudioManager.Instance.PlayAudioSource(AudioSourceName.Bounce);
             if(CheckBumpLimit())
                 StartCoroutine(FallOffCo());
             else

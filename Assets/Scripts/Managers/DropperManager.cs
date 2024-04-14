@@ -53,6 +53,8 @@ namespace RobbieWagnerGames.Plinko
             GameManager.Instance.OnReset += ResetDropper;
             currentSegments = new List<DropperSegment>();
             bounceMat.bounciness = initialBounciness;
+
+            SortDropperSegments();
         }
 
         private void ResetDropper()
@@ -105,6 +107,11 @@ namespace RobbieWagnerGames.Plinko
 
             bottomInstance.transform.position = Vector2.down * (dropperHeight - topYValue + bottomInstance.height/2);
             dropperHeight += bottomInstance.height;
+        }
+
+        public void SortDropperSegments()
+        {
+            unlockedSegments = unlockedSegments.OrderBy(segment => segment.special).ToList();
         }
     }
 }
