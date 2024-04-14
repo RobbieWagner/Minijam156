@@ -21,19 +21,18 @@ namespace RobbieWagnerGames.Common
             }
 
             base.Awake();
-            UIManager.Instance.OnPauseGame += SetupMenuHandler;
-            UIManager.Instance.OnResumeGame += DisableMenu;
         }
 
         public void SetupMenuHandler()
         {
-            SetupMenu(false);
+            SetupMenu();
         }
 
-        public override void SetupMenu(bool registerActionCollection = false)
+        public override void SetupMenu()
         {
-            base.SetupMenu(registerActionCollection);
+            base.SetupMenu();
         }
+
 
         private void DisableMenu()
         {

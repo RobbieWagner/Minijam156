@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RobbieWagnerGames.Managers;
 using UnityEngine;
+using RobbieWagnerGames.Plinko;
 
 namespace RobbieWagnerGames.Common
 {
@@ -10,7 +11,7 @@ namespace RobbieWagnerGames.Common
         public override IEnumerator SelectButton(Menu menu)
         {
             yield return new WaitForSecondsRealtime(.01f);
-            UIManager.Instance.ResumeGame();
+            GameManager.Instance.ResumeGame();
         }
     }
 }

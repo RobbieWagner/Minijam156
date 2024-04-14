@@ -42,12 +42,18 @@ namespace RobbieWagnerGames.Managers
 
         private void ToggleDroppers(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if(!ShopMenu.Instance.isOn && !DropperMenu.Instance.isOn && !GameManager.Instance.paused)
+                DropperMenu.Instance.SetupMenu();
+            else if(DropperMenu.Instance.isOn)
+                DropperMenu.Instance.DisableMenu();
         }
 
         private void ToggleShop(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if(!ShopMenu.Instance.isOn && !DropperMenu.Instance.isOn && !GameManager.Instance.paused)
+                ShopMenu.Instance.SetupMenu();
+            else if(ShopMenu.Instance.isOn)
+                ShopMenu.Instance.DisableMenu();
         }
 
         private void CheckMenuState(DropState dropState)
@@ -65,7 +71,7 @@ namespace RobbieWagnerGames.Managers
             }
         }
 
-        private void DisableStandingUI()
+        public void DisableStandingUI()
         {
             if(currentDisableCo == null)
             {
@@ -86,7 +92,7 @@ namespace RobbieWagnerGames.Managers
             standingUI.DisableUI();
         }
 
-        private void EnableStandingUI()
+        public void EnableStandingUI()
         {
             if(currentEnableCo == null)
             {
@@ -120,21 +126,5 @@ namespace RobbieWagnerGames.Managers
             yield return screenCoverImage.DOColor(Color.clear, 1).SetEase(Ease.Linear).WaitForCompletion();
             screenCoverCanvas.enabled = false;
         }
-
-        public void PauseGame()
-        {
-            Time.timeScale = 0;
-            
-            OnPauseGame?.Invoke();
-        }
-        public delegate void ActionDelegate();
-        public event ActionDelegate OnPauseGame;
-
-        public void ResumeGame()
-        {
-            Time.timeScale = 1;
-            OnResumeGame?.Invoke();
-        }
-        public event ActionDelegate OnResumeGame;
     }
 }

@@ -12,14 +12,12 @@ namespace RobbieWagnerGames.Plinko
 
         [Header("Rendering")]
         [SerializeField] protected SpriteRenderer spriteRenderer;
-        [SerializeField] protected Sprite inactiveSprite;
-        [SerializeField] protected Sprite activeSprite;
         [SerializeField] private UnitAnimator unitAnimator;
 
         [Header("Mechanics")]
         [SerializeField] protected int pointValue = 100;
         [SerializeField] protected int leafGain = 5; //TODO decide if gain all leaves or x number of leaves per bounce
-        [SerializeField] protected bool gainedLeaves = false;
+        [SerializeField] protected bool bouncedOnce = false;
         
         [SerializeField] private Rigidbody2D rb2d;
         [SerializeField] private Collider2D coll;
@@ -29,19 +27,8 @@ namespace RobbieWagnerGames.Plinko
 
         protected virtual void Awake()
         {
-            spriteRenderer.sprite = inactiveSprite;
-            GameManager.Instance.OnReset += Reset;
+            unitAnimator.ChangeAnimationState(UnitAnimationState.Idle);
             rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-
-        protected virtual void OnDestroy()
-        {
-            GameManager.Instance.OnReset -= Reset;
-        }
-
-        protected virtual void Reset()
-        {
-            gainedLeaves = false;
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D other)
@@ -56,18 +43,20 @@ namespace RobbieWagnerGames.Plinko
                 if(currentBumpCo == null)
                     currentBumpCo = StartCoroutine(BumpCo());
 
-                StaticGameStats.RoundScore += pointValue;
-                if(!gainedLeaves)
+                if(!bouncedOnce)
                 {
-                    gainedLeaves = true;
-                    StaticGameStats.Leaves += leafGain;
+                    bouncedOnce = true;
+                    StaticGameStats.EffectScore(ScoreType.LEAVES, leafGain);
+                    StaticGameStats.EffectScore(ScoreType.SCORE, pointValue);
                 }
+                else
+                    StaticGameStats.EffectScore(ScoreType.SCORE, 5);
             }  
         }
 
         protected virtual IEnumerator BumpCo()
         {
-            spriteRenderer.sprite = activeSprite;
+            unitAnimator.ChangeAnimationState(UnitAnimationState.Bumping);
             if(CheckBumpLimit())
                 StartCoroutine(FallOffCo());
             else
@@ -75,20 +64,18 @@ namespace RobbieWagnerGames.Plinko
                 yield return new WaitForSeconds(1f);
                 if(CheckBumpLimit())
                     StartCoroutine(FallOffCo());
-                else spriteRenderer.sprite = inactiveSprite;
+                else unitAnimator.ChangeAnimationState(UnitAnimationState.Idle);
             }
             currentBumpCo = null;
         }
 
         private bool CheckBumpLimit()
         {
-            Debug.Log($"bumps {bumps}");
             return bumps >= bumpLimit;
         }
 
         private IEnumerator FallOffCo()
         {
-            Debug.Log("Fall Off");
             unitAnimator.ChangeAnimationState(UnitAnimationState.Falling);
             coll.enabled = false;
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;

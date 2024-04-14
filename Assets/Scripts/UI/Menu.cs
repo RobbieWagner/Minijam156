@@ -14,6 +14,7 @@ namespace RobbieWagnerGames.Common
 
         protected MenuControls menuControls;
         [SerializeField] protected bool OnByDefault;
+        [HideInInspector] public bool isOn = false;
         [SerializeField] protected List<MenuButton> menuButtons;
         protected int curButton = 0;
         protected int CurButton
@@ -44,7 +45,7 @@ namespace RobbieWagnerGames.Common
                 SetupMenu();
         }
 
-        public virtual void SetupMenu(bool registerActionCollection = true)
+        public virtual void SetupMenu()
         {
             canvas.enabled = true;
             ConsiderMenuButton(CurButton);
@@ -52,7 +53,16 @@ namespace RobbieWagnerGames.Common
                 button.parentMenu = this;
 
             menuControls.Enable();
+            isOn = true;
+            OnOpenMenu?.Invoke();
         }
+
+        public void CallOnOpen()
+        {
+            OnOpenMenu?.Invoke();
+        }
+        public delegate void MenuDelegate();
+        public event MenuDelegate OnOpenMenu;
 
         public virtual void DisableMenu(bool returnToPreviousMenu = true)
         {
@@ -67,7 +77,10 @@ namespace RobbieWagnerGames.Common
                 ReturnToPreviousMenu?.Invoke();
             
             menuControls.Disable();
+            isOn = false;
+            OnCloseMenu?.Invoke();
         }
+        public event MenuDelegate OnCloseMenu;
         public delegate void OnEnablePreviousMenuDelegate();
         public event OnEnablePreviousMenuDelegate ReturnToPreviousMenu;
 
@@ -75,10 +88,11 @@ namespace RobbieWagnerGames.Common
         {
             foreach (MenuButton button in menuButtons)
                 button.NavigateAway();
-            menuButtons[activeButtonIndex].NavigateTo();
+            if(menuButtons.Any())
+                menuButtons[activeButtonIndex].NavigateTo();
         }
 
-        private void NavigateMenu(InputAction.CallbackContext context)
+        protected virtual void NavigateMenu(InputAction.CallbackContext context)
         {
             float direction = context.ReadValue<float>();
 
@@ -93,7 +107,8 @@ namespace RobbieWagnerGames.Common
         protected virtual void SelectMenuItem(InputAction.CallbackContext context)
         {
             DisableMenu();
-            StartCoroutine(menuButtons[CurButton].SelectButton(this));
+            if(menuButtons.Any())
+                StartCoroutine(menuButtons[CurButton].SelectButton(this));
             InvokeOnSelectMenuItem();
         }
 

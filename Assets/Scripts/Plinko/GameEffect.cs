@@ -39,8 +39,7 @@ public class AddCurrencyMultiplier: GameEffect
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-
-        //TODO: StaticGameStats.currencyAddOnPickup = (int) magnitude;
+        StaticGameStats.currencyMultiplier = magnitude;
     }
 }
 
@@ -75,7 +74,8 @@ public class UpgradeFloatTime: GameEffect
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-        //GameManager.Instance.ball.maxFloatTime = magnitude;
+        DropperBall.Instance.maxGlideTime = magnitude;
+        DropperBall.Instance.GlideTime = DropperBall.Instance.maxGlideTime;
     }
 }
 
@@ -85,7 +85,17 @@ public class UpgradeFloatSpeed: GameEffect
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-        //GameManager.Instance.ball.floatSpeed = magnitude;
+        DropperBall.Instance.glideInputSpeed = magnitude;
+    }
+}
+
+[Serializable]
+public class UpgradeMovementPower: GameEffect
+{
+    public override void ApplyPurchaseEffect()
+    {
+        base.ApplyPurchaseEffect();
+        DropperBall.Instance.inputSpeed = magnitude;
     }
 }
 

@@ -11,6 +11,7 @@ namespace RobbieWagnerGames.Common
         Floating = 1,
         FallStart = 2,
         Falling = 3,
+        Bumping = 4
 
     }
 

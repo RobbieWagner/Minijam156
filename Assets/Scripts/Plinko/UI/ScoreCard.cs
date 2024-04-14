@@ -91,8 +91,6 @@ namespace RobbieWagnerGames.Plinko
                 UpdateText(currentDisplayedFlowers.ToString(), text);
                 currentFlowersRaiseCo = null;
             }
-
-            Debug.Log($"{scoreType}: {newValue}");
         }
 
         private void UpdateText(string score, TextMeshProUGUI text)

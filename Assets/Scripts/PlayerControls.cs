@@ -42,8 +42,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""8c1d0a36-50d1-425c-a139-a48af9334662"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.1)"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Float"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a37e1fc-580d-4404-afb0-b25a1c7f9525"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -222,6 +231,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c81e204e-1807-4455-add3-19f10d561aff"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Float"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3543e6e-5a80-4def-8e66-47351cdeddf2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Float"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -233,6 +264,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""ExitMenu"",
                     ""type"": ""Button"",
                     ""id"": ""d956a3c4-e355-4994-8d26-b75c0d3865ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""34ecf578-9b24-4131-be61-2dd6f23e516c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -272,6 +312,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ExitMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""092806f9-68b4-449c-bbf4-7c25228cd1b1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fa02a49-8d12-45db-bb5e-84ce78802b85"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -282,9 +344,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Dropper = asset.FindActionMap("Dropper", throwIfNotFound: true);
         m_Dropper_DropBall = m_Dropper.FindAction("DropBall", throwIfNotFound: true);
         m_Dropper_Move = m_Dropper.FindAction("Move", throwIfNotFound: true);
+        m_Dropper_Float = m_Dropper.FindAction("Float", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_ExitMenu = m_Menu.FindAction("ExitMenu", throwIfNotFound: true);
+        m_Menu_PauseGame = m_Menu.FindAction("PauseGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -348,12 +412,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IDropperActions> m_DropperActionsCallbackInterfaces = new List<IDropperActions>();
     private readonly InputAction m_Dropper_DropBall;
     private readonly InputAction m_Dropper_Move;
+    private readonly InputAction m_Dropper_Float;
     public struct DropperActions
     {
         private @PlayerControls m_Wrapper;
         public DropperActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @DropBall => m_Wrapper.m_Dropper_DropBall;
         public InputAction @Move => m_Wrapper.m_Dropper_Move;
+        public InputAction @Float => m_Wrapper.m_Dropper_Float;
         public InputActionMap Get() { return m_Wrapper.m_Dropper; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -369,6 +435,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Float.started += instance.OnFloat;
+            @Float.performed += instance.OnFloat;
+            @Float.canceled += instance.OnFloat;
         }
 
         private void UnregisterCallbacks(IDropperActions instance)
@@ -379,6 +448,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Float.started -= instance.OnFloat;
+            @Float.performed -= instance.OnFloat;
+            @Float.canceled -= instance.OnFloat;
         }
 
         public void RemoveCallbacks(IDropperActions instance)
@@ -401,11 +473,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Menu;
     private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
     private readonly InputAction m_Menu_ExitMenu;
+    private readonly InputAction m_Menu_PauseGame;
     public struct MenuActions
     {
         private @PlayerControls m_Wrapper;
         public MenuActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ExitMenu => m_Wrapper.m_Menu_ExitMenu;
+        public InputAction @PauseGame => m_Wrapper.m_Menu_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +492,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ExitMenu.started += instance.OnExitMenu;
             @ExitMenu.performed += instance.OnExitMenu;
             @ExitMenu.canceled += instance.OnExitMenu;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IMenuActions instance)
@@ -425,6 +502,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ExitMenu.started -= instance.OnExitMenu;
             @ExitMenu.performed -= instance.OnExitMenu;
             @ExitMenu.canceled -= instance.OnExitMenu;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IMenuActions instance)
@@ -446,9 +526,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnDropBall(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnFloat(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
         void OnExitMenu(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }

@@ -18,6 +18,7 @@ namespace RobbieWagnerGames.Plinko
         [ContextMenu(nameof(AddCurrencyMultiplierEffect))] void AddCurrencyMultiplierEffect(){effects.Add(new AddCurrencyMultiplier());}
         [ContextMenu(nameof(AddBasketUpgrade))] void AddBasketUpgrade(){effects.Add(new UpgradeBasketReward());}
         [ContextMenu(nameof(AddRowEffect))] void AddRowEffect(){effects.Add(new AddRow());}
+        [ContextMenu(nameof(AddMovementUpgrade))] void AddMovementUpgrade(){effects.Add(new UpgradeMovementPower());}
 
         //[ContextMenu(nameof(AddCurrencyEffect))] void AddCurrencyEffect(){effects.Add(new AddCurrency());}
 
@@ -40,6 +41,7 @@ namespace RobbieWagnerGames.Plinko
         {
             foreach(GameEffect effect in effects)
             {
+                Debug.Log("apply effects");
                 effect.ApplyPurchaseEffect();
             }
         } 

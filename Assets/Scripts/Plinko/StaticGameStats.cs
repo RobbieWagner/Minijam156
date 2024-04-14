@@ -8,8 +8,10 @@ namespace RobbieWagnerGames.Plinko
     {
         public delegate void StaticValueChangedDelegate(int newValue); 
 
+        public static float currencyMultiplier = 1;
+
         private static int roundScore = 0;
-        public static int RoundScore
+        private static int RoundScore
         {
             get => roundScore; 
             set 
@@ -23,7 +25,7 @@ namespace RobbieWagnerGames.Plinko
         public static event StaticValueChangedDelegate OnScoreChanged;
 
         private static int highScore = 0;
-        public static int HighScore
+        private static int HighScore
         {
             get => highScore; 
             set 
@@ -38,7 +40,7 @@ namespace RobbieWagnerGames.Plinko
         
 
         private static int leaves = 0;
-        public static int Leaves
+        private static int Leaves
         {
             get => leaves;
             set
@@ -73,10 +75,16 @@ namespace RobbieWagnerGames.Plinko
                 RoundScore += value;
                 break;
                 case ScoreType.LEAVES:
-                Leaves += value;
+                if(value > 0)
+                    Leaves += (int) (value * currencyMultiplier);
+                else
+                    Leaves += value;
                 break;
                 case ScoreType.FLOWERS:
-                Flowers += value;
+                if(value > 0)
+                    Flowers += (int) (value * currencyMultiplier);
+                else
+                    Flowers += value;
                 break;  
                 default:
                 break;
@@ -111,7 +119,7 @@ namespace RobbieWagnerGames.Plinko
                 case ScoreType.LEAVES:
                 return new Color(0, .7f, 0f, 1f);
                 case ScoreType.FLOWERS:
-                return new Color(1, .7f, .7f, 1f);
+                return new Color(1, .7f, 1f, 1f);
                 default:
                 break;
             }

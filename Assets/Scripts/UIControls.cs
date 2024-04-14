@@ -33,7 +33,7 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                     ""id"": ""9d98814d-7f43-41d3-906c-8f6e595b4100"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -42,7 +42,7 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                     ""id"": ""ef235293-33ff-4b27-a925-991e2210d965"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -50,7 +50,7 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""47f39aa6-0c08-4729-87ae-35d9fdf50dda"",
-                    ""path"": ""<Keyboard>/o"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -72,7 +72,7 @@ public partial class @UIControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2b308de4-a0e9-41f7-8c95-3da60879b2ea"",
-                    ""path"": ""<Keyboard>/p"",
+                    ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

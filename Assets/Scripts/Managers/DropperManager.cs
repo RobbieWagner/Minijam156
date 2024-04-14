@@ -7,8 +7,8 @@ namespace RobbieWagnerGames.Plinko
 {
     public class DropperManager : MonoBehaviour
     {
-        [SerializeField] private List<DropperSegment> unlockedSegments;
-        [SerializeField] private List<DropperSegment> currentSegments; //TODO: Remove [serializefield] after testing
+        public List<DropperSegment> unlockedSegments;
+        private List<DropperSegment> currentSegments;
         public int middleSegmentCount = 1;
         [SerializeField] private DropperSegment topPrefab;
         [SerializeField] private DropperSegment bottomPrefab;
@@ -33,6 +33,7 @@ namespace RobbieWagnerGames.Plinko
             } 
 
             GameManager.Instance.OnReset += ResetDropper;
+            currentSegments = new List<DropperSegment>();
         }
 
         private void ResetDropper()

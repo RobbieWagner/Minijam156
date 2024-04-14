@@ -137,10 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 732194818974499593}
-  inactiveSprite: {fileID: 21300000, guid: b789ba1f8b633b544952d5daa24c58e2, type: 3}
-  activeSprite: {fileID: 21300000, guid: 8863c1d12d355be47959e35c863fa4d1, type: 3}
   unitAnimator: {fileID: -6272930638627649177}
-  pointValue: 100
+  pointValue: 60
   leafGain: 5
   gainedLeaves: 0
   rb2d: {fileID: -4233359624873796432}
@@ -159,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: -3074862041489084040}
-  states: 0000000003000000
+  states: 000000000300000004000000
 --- !u!50 &-4233359624873796432
 Rigidbody2D:
   serializedVersion: 4

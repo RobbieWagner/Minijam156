@@ -13,7 +13,8 @@ namespace RobbieWagnerGames.Common
 
         protected virtual void Awake()
         {
-            nameText.color = new Color(nameText.color.r, nameText.color.g, nameText.color.b, DISABLED_TEXT_ALPHA);
+            if(nameText != null)
+                nameText.color = new Color(nameText.color.r, nameText.color.g, nameText.color.b, DISABLED_TEXT_ALPHA);
         }
 
         public virtual void NavigateTo() => nameText.color = new Color(nameText.color.r, nameText.color.g, nameText.color.b, 1);
