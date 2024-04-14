@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 6788825262795530201}
   - component: {fileID: 7565818409820221205}
   m_Layer: 0
-  m_Name: CurrencyMultiplierShopButton
+  m_Name: Special
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,20 +531,16 @@ MonoBehaviour:
   parentMenu: {fileID: 0}
   nameText: {fileID: 0}
   shopItems:
-  - {fileID: 11400000, guid: 7db63878efd45d147afab385be68219e, type: 2}
-  - {fileID: 11400000, guid: 1e87d8152bd600748b9c8c3688c5f19d, type: 2}
-  - {fileID: 11400000, guid: b8e3f450e36f97044ba51cba6eff581d, type: 2}
-  - {fileID: 11400000, guid: 35fed2e42ebe3774c8e5491784b14db4, type: 2}
-  - {fileID: 11400000, guid: 95965efc85adec64e8ddce1ad021f591, type: 2}
-  - {fileID: 11400000, guid: 8cae8fa4ccb33f340ab9d58ec240eba0, type: 2}
-  - {fileID: 11400000, guid: e9c60e8e92e69dd429f87eebeaf2c29c, type: 2}
-  - {fileID: 11400000, guid: 9904c7d36be30fa45805bc5f36c66a60, type: 2}
-  - {fileID: 11400000, guid: e5c00c926fb365e4096494d99bd3decd, type: 2}
-  - {fileID: 11400000, guid: e75ab1e5a813193419f407557ee40d27, type: 2}
+  - {fileID: 11400000, guid: 2d1f03b3ed323624698dfb1a9ba45d46, type: 2}
+  - {fileID: 11400000, guid: 396f3b70a57fb34409afe9b77e796206, type: 2}
+  - {fileID: 11400000, guid: 0055e8da93ca99f4893d418b6c8e3ec1, type: 2}
+  - {fileID: 11400000, guid: 891cac67ce2a37a4bbd75e19e7143929, type: 2}
+  - {fileID: 11400000, guid: 5cce57ec9c23a8f4994940bace14f3fe, type: 2}
   currentItemIndex: 0
   shop: {fileID: 0}
   costText: {fileID: 8207644932264422466}
   icon: {fileID: 1831781447995374466}
   currencyIcon: {fileID: 477757171053504358}
   background: {fileID: 7274274908914058067}
+  itemDescription: Increases the chance of getting a special row
   canInteract: 0

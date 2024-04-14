@@ -25,4 +25,4 @@ MonoBehaviour:
       data:
         magnitude: 2
         associatedColor: {r: 0, g: 0.8, b: 0, a: 1}
-        icon: {fileID: 21300000, guid: 65e527237c5ca5f40ad69c5cf743f5b9, type: 3}
+        icon: {fileID: 21300000, guid: de317ff5b6f213d43a92c3d464659a48, type: 3}

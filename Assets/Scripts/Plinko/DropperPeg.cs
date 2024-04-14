@@ -21,9 +21,9 @@ namespace RobbieWagnerGames.Plinko
         
         [SerializeField] private Rigidbody2D rb2d;
         [SerializeField] private Collider2D coll;
+        [SerializeField] private bool canFall = true;
 
         private int bumps = 0;
-        [SerializeField] private int bumpLimit = 2;
 
         protected virtual void Awake()
         {
@@ -50,7 +50,10 @@ namespace RobbieWagnerGames.Plinko
                     StaticGameStats.EffectScore(ScoreType.SCORE, pointValue);
                 }
                 else
+                {
                     StaticGameStats.EffectScore(ScoreType.SCORE, 5);
+                    StaticGameStats.EffectScore(ScoreType.LEAVES, 1);
+                }
             }  
         }
 
@@ -71,7 +74,7 @@ namespace RobbieWagnerGames.Plinko
 
         private bool CheckBumpLimit()
         {
-            return bumps >= bumpLimit;
+            return bumps >= StaticGameStats.bumpLimit && canFall;
         }
 
         private IEnumerator FallOffCo()

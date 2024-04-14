@@ -14,16 +14,20 @@ namespace RobbieWagnerGames.Plinko
         [SerializeReference] public List<GameEffect> effects;
 
         [ContextMenu(nameof(AddBounceEffect))] void AddBounceEffect(){effects.Add(new AddBounce());}
-        [ContextMenu(nameof(Mass))] void Mass(){effects.Add(new AddMass());}
         [ContextMenu(nameof(AddCurrencyMultiplierEffect))] void AddCurrencyMultiplierEffect(){effects.Add(new AddCurrencyMultiplier());}
-        [ContextMenu(nameof(AddBasketUpgrade))] void AddBasketUpgrade(){effects.Add(new UpgradeBasketReward());}
+        [ContextMenu(nameof(AddCurrency))] void AddCurrency(){effects.Add(new AddCurrency());}
         [ContextMenu(nameof(AddRowEffect))] void AddRowEffect(){effects.Add(new AddRow());}
+        [ContextMenu(nameof(AddDropperLength))] void AddDropperLength(){effects.Add(new AddDropperLength());}
         [ContextMenu(nameof(AddMovementUpgrade))] void AddMovementUpgrade(){effects.Add(new UpgradeMovementPower());}
+        [ContextMenu(nameof(AddPegStrength))] void AddPegStrength(){effects.Add(new UpgradePegStrength());}
 
         //[ContextMenu(nameof(AddCurrencyEffect))] void AddCurrencyEffect(){effects.Add(new AddCurrency());}
 
         [ContextMenu(nameof(AddFloatTimeUpgrade))] void AddFloatTimeUpgrade(){effects.Add(new UpgradeFloatTime());}
         [ContextMenu(nameof(AddFloatSpeedUpgrade))] void AddFloatSpeedUpgrade(){effects.Add(new UpgradeFloatSpeed());}
+        [ContextMenu(nameof(AddFlapUpgrade))] void AddFlapUpgrade(){effects.Add(new UpgradeFlapPower());}
+        [ContextMenu(nameof(AddEventChance))] void AddEventChance(){effects.Add(new UpgradeEventChance());}
+        [ContextMenu(nameof(AddSpecial))] void AddSpecial(){effects.Add(new UpgradeSpecialChance());}
         [ContextMenu(nameof(Clear))] void Clear(){effects.Clear();}
 
         public bool Buy()

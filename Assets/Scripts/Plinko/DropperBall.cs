@@ -33,6 +33,7 @@ namespace RobbieWagnerGames.Plinko
         [SerializeField] private Vector2 playerMoveVector;
         public float inputSpeed = 5f;
         public float glideSpeed = 5f;
+        public float flapForce = 50f;
         private Tweener stopTween;
         [SerializeField] private Vector3 cameraOffset;
         [Header("Glider")]
@@ -85,6 +86,7 @@ namespace RobbieWagnerGames.Plinko
             playerControls.Dropper.Float.performed += ToggleFloat;
             playerControls.Dropper.Move.performed += Move;
             playerControls.Dropper.Move.canceled += Stop;
+            playerControls.Dropper.Flap.performed += FloatFlap;
             //playerControls.Dropper.Enable();
             GameManager.Instance.OnReset += Reset;
             GameManager.Instance.OnFinishRun += FinishRun;
@@ -177,6 +179,7 @@ namespace RobbieWagnerGames.Plinko
         {
             if(newDropState == currentDropState)
                 return;
+            OnLeaveState?.Invoke(currentDropState);
             switch(currentDropState)
             {
                 case DropState.FLOATING:
@@ -208,6 +211,7 @@ namespace RobbieWagnerGames.Plinko
         }
         public delegate void ChangeDropStateDelegate(DropState state);
         public event ChangeDropStateDelegate OnChangeDropState;
+        public event ChangeDropStateDelegate OnLeaveState;
 
         private void EnterPauseState()
         {
@@ -267,7 +271,7 @@ namespace RobbieWagnerGames.Plinko
 
         private void DropBall(InputAction.CallbackContext context)
         {
-            if(currentDropState == DropState.WAITING || currentDropState == DropState.FLOATING || currentDropState == DropState.PAUSED)
+            if(currentDropState == DropState.WAITING || currentDropState == DropState.PAUSED)
             {
                 ChangeDropState(DropState.FALLING);
                 coll.enabled = true;
@@ -293,6 +297,15 @@ namespace RobbieWagnerGames.Plinko
                 default:
                 break;
             }
+        }
+
+        private void FloatFlap(InputAction.CallbackContext context)
+        {
+            if(currentDropState == DropState.FLOATING)
+            {
+                GlideTime-= .5f;
+                rb2d.AddForce(Vector2.up * flapForce);
+            }  
         }
 
         private void EnterFloatState()

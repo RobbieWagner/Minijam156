@@ -53,6 +53,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flap"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed42941c-77f7-4b8c-ac01-f1e1e405f9b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -253,6 +262,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Float"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90b8ad34-c284-4534-bc2d-27d812706a37"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ba19d5c-4594-44e7-8f71-0c034a0ed228"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -345,6 +376,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Dropper_DropBall = m_Dropper.FindAction("DropBall", throwIfNotFound: true);
         m_Dropper_Move = m_Dropper.FindAction("Move", throwIfNotFound: true);
         m_Dropper_Float = m_Dropper.FindAction("Float", throwIfNotFound: true);
+        m_Dropper_Flap = m_Dropper.FindAction("Flap", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_ExitMenu = m_Menu.FindAction("ExitMenu", throwIfNotFound: true);
@@ -413,6 +445,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dropper_DropBall;
     private readonly InputAction m_Dropper_Move;
     private readonly InputAction m_Dropper_Float;
+    private readonly InputAction m_Dropper_Flap;
     public struct DropperActions
     {
         private @PlayerControls m_Wrapper;
@@ -420,6 +453,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @DropBall => m_Wrapper.m_Dropper_DropBall;
         public InputAction @Move => m_Wrapper.m_Dropper_Move;
         public InputAction @Float => m_Wrapper.m_Dropper_Float;
+        public InputAction @Flap => m_Wrapper.m_Dropper_Flap;
         public InputActionMap Get() { return m_Wrapper.m_Dropper; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -438,6 +472,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Float.started += instance.OnFloat;
             @Float.performed += instance.OnFloat;
             @Float.canceled += instance.OnFloat;
+            @Flap.started += instance.OnFlap;
+            @Flap.performed += instance.OnFlap;
+            @Flap.canceled += instance.OnFlap;
         }
 
         private void UnregisterCallbacks(IDropperActions instance)
@@ -451,6 +488,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Float.started -= instance.OnFloat;
             @Float.performed -= instance.OnFloat;
             @Float.canceled -= instance.OnFloat;
+            @Flap.started -= instance.OnFlap;
+            @Flap.performed -= instance.OnFlap;
+            @Flap.canceled -= instance.OnFlap;
         }
 
         public void RemoveCallbacks(IDropperActions instance)
@@ -527,6 +567,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDropBall(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnFloat(InputAction.CallbackContext context);
+        void OnFlap(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

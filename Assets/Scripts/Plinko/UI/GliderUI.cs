@@ -11,6 +11,7 @@ namespace RobbieWagnerGames.Plinko
         [SerializeField] private Canvas canvas;
         [SerializeField] private Slider slider;
         [SerializeField] private Image sliderFG;
+        [SerializeField] private GameObject flapIndication;
         private Coroutine cooldownCo;
 
         private void Awake()
@@ -25,8 +26,12 @@ namespace RobbieWagnerGames.Plinko
             switch(state)
             {
                 case DropState.FALLING:
+                canvas.enabled = true;
+                flapIndication.SetActive(false);
+                break;
                 case DropState.FLOATING:
                 canvas.enabled = true;
+                flapIndication.SetActive(true);
                 break;
                 default:
                 canvas.enabled = false;

@@ -547,4 +547,5 @@ MonoBehaviour:
   icon: {fileID: 1831781447995374466}
   currencyIcon: {fileID: 477757171053504358}
   background: {fileID: 7274274908914058067}
+  itemDescription: Increases glider movement speed.
   canInteract: 0

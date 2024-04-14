@@ -13,7 +13,7 @@ public class GameEffect
 
     public virtual void ApplyPurchaseEffect()
     {
-        
+
     }
 
     public Color GetColor()
@@ -23,18 +23,18 @@ public class GameEffect
 }
 
 [Serializable]
-public class AddBounce: GameEffect
+public class AddBounce : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
 
-        //TODO: StaticGameStats.mutantMaterial.bounciness = magnitude;
+        DropperManager.Instance.bounceMat.bounciness = magnitude;
     }
 }
 
 [Serializable]
-public class AddCurrencyMultiplier: GameEffect
+public class AddCurrencyMultiplier : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
@@ -43,33 +43,42 @@ public class AddCurrencyMultiplier: GameEffect
     }
 }
 
-// [Serializable]
-// public class AddCurrency: GameEffect
-// {
-//     [SerializeField] public ScoreType currencyType;
-
-//     public override void ApplyPurchaseEffect()
-//     {
-//         base.ApplyPurchaseEffect();
-//         StaticGameStats.EffectScore(currencyType);
-//     }
-// }
-
 [Serializable]
-public class AddRow: GameEffect
+public class AddCurrency: GameEffect
 {
-    [SerializeField] private GameObject rowPrefab;
-    [SerializeField] private float height;
+    [SerializeField] public ScoreType currencyType;
 
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-        //DropperGame.Instance.AddRow(rowPrefab, height);
+        StaticGameStats.EffectScore(currencyType, (int) magnitude);
     }
 }
 
 [Serializable]
-public class UpgradeFloatTime: GameEffect
+public class AddRow : GameEffect
+{
+    [SerializeField] private DropperSegment rowPrefab;
+
+    public override void ApplyPurchaseEffect()
+    {
+        base.ApplyPurchaseEffect();
+        DropperManager.Instance.unlockedSegments.Add(rowPrefab);
+    }
+}
+
+[Serializable]
+public class AddDropperLength : GameEffect
+{
+    public override void ApplyPurchaseEffect()
+    {
+        base.ApplyPurchaseEffect();
+        DropperManager.Instance.MiddleSegmentCount++;
+    }
+}
+
+[Serializable]
+public class UpgradeFloatTime : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
@@ -80,7 +89,17 @@ public class UpgradeFloatTime: GameEffect
 }
 
 [Serializable]
-public class UpgradeFloatSpeed: GameEffect
+public class UpgradeFlapPower : GameEffect
+{
+    public override void ApplyPurchaseEffect()
+    {
+        base.ApplyPurchaseEffect();
+        DropperBall.Instance.flapForce = magnitude;
+    }
+}
+
+[Serializable]
+public class UpgradeFloatSpeed : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
@@ -90,7 +109,7 @@ public class UpgradeFloatSpeed: GameEffect
 }
 
 [Serializable]
-public class UpgradeMovementPower: GameEffect
+public class UpgradeMovementPower : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
@@ -100,21 +119,31 @@ public class UpgradeMovementPower: GameEffect
 }
 
 [Serializable]
-public class UpgradeBasketReward: GameEffect
+public class UpgradePegStrength : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-        //GameStats.Instance.currencyAddOnEffect = (int) magnitude;
+        StaticGameStats.bumpLimit = (int)magnitude;
     }
 }
 
 [Serializable]
-public class AddMass: GameEffect
+public class UpgradeEventChance : GameEffect
 {
     public override void ApplyPurchaseEffect()
     {
         base.ApplyPurchaseEffect();
-        //GameManager.Instance.ball.rb2d.mass = magnitude;
+        GameManager.Instance.eventChance = (int)magnitude;
+    }
+}
+
+[Serializable]
+public class UpgradeSpecialChance : GameEffect
+{
+    public override void ApplyPurchaseEffect()
+    {
+        base.ApplyPurchaseEffect();
+        DropperManager.Instance.specialRowChance = (int)magnitude;
     }
 }

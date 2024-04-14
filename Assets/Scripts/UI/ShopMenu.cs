@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.UI;
 using System;
+using AYellowpaper.SerializedCollections;
+using TMPro;
 
 namespace RobbieWagnerGames.Plinko
 {
@@ -20,6 +22,9 @@ namespace RobbieWagnerGames.Plinko
         private List<PurchaseButton[]> purchaseButtons; 
         [SerializeField] private int columnHeight = 3;
         private int CurRow = 0;
+        [SerializedDictionary("currency", "icon")] public SerializedDictionary<ScoreType, Sprite> currencyIcons;
+        
+        [SerializeField] private TextMeshProUGUI descriptionText;
 
         public static ShopMenu Instance {get; private set;}
         protected override void Awake()
@@ -39,6 +44,23 @@ namespace RobbieWagnerGames.Plinko
             shopControls.Shop.NavigateShop.performed += NavigateMenu;
             shopControls.Shop.Select.performed += SelectMenuItem;
             purchaseButtons = new List<PurchaseButton[]>();
+
+            int lists = shopItems.Count / columnHeight + 1;
+            for(int i = 0; i < lists; i++)
+                purchaseButtons.Add(new PurchaseButton[columnHeight]);
+            int column = 0;
+            int row = 0;
+            for(int i = 0; i < shopItems.Count; i++)
+            {
+                PurchaseButton button = shopItems[i];
+                purchaseButtons[column][row] = Instantiate(button, organizer.transform);
+                row++;
+                if(row >= columnHeight)
+                {
+                    column++;
+                    row = 0;
+                }
+            }
         }
 
         protected override void SelectMenuItem(InputAction.CallbackContext context)
@@ -98,26 +120,7 @@ namespace RobbieWagnerGames.Plinko
         }
 
         public override void SetupMenu()
-        {
-            ClearMenu();
-            purchaseButtons.Clear();
-            
-            int lists = shopItems.Count / columnHeight + 1;
-            for(int i = 0; i < lists; i++)
-                purchaseButtons.Add(new PurchaseButton[columnHeight]);
-            int column = 0;
-            int row = 0;
-            for(int i = 0; i < shopItems.Count; i++)
-            {
-                PurchaseButton button = shopItems[i];
-                purchaseButtons[column][row] = Instantiate(button, organizer.transform);
-                row++;
-                if(row >= columnHeight)
-                {
-                    column++;
-                    row = 0;
-                }
-            }
+        {   
             canvas.enabled = true;
             menuControls.Disable();
             shopControls.Enable();
@@ -132,22 +135,22 @@ namespace RobbieWagnerGames.Plinko
                 foreach(PurchaseButton listButton in buttonList)
                     listButton?.NavigateAway();
             button.NavigateTo();
+            descriptionText.text = button.itemDescription;
         }
 
         public override void DisableMenu(bool returnToPreviousMenu = true)
         {
             base.DisableMenu(returnToPreviousMenu);
-            ClearMenu();
+            //ClearMenu();
             shopControls.Disable();
         }
 
-        private void ClearMenu()
+        public void UpdateShop()
         {
-            foreach(PurchaseButton[] buttonList in purchaseButtons)
-                foreach(PurchaseButton button in buttonList)
-                    if(button != null) 
-                        Destroy(button.gameObject);
-            purchaseButtons.Clear();
+            OnUpdateShop?.Invoke();
+            ConsiderMenuButton(purchaseButtons[curButton][CurRow]);
         }
+        public delegate void UpdateShopDelegate();
+        public event UpdateShopDelegate OnUpdateShop;
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using RobbieWagnerGames.Common;
 using TMPro;
+using AYellowpaper.SerializedCollections;
 
 namespace RobbieWagnerGames.Plinko
 {
@@ -22,6 +23,8 @@ namespace RobbieWagnerGames.Plinko
         [SerializeField] private Image background;
         private Color DISABLED_COLOR;
 
+        [TextArea] public string itemDescription;
+
         [HideInInspector] public bool canInteract = false;
 
         private void Awake()
@@ -30,14 +33,33 @@ namespace RobbieWagnerGames.Plinko
 
             costText.text = shopItems[0].cost.ToString();
 
-            if(StaticGameStats.GetCurrencyValue(shopItems[0].currencyType) >= shopItems[0].cost)
-            {
-                costText.color = StaticGameStats.GetCurrencyColor(shopItems[0].currencyType);
-            }
-            else costText.color = Color.black;
+            CheckColor();
 
             DISABLED_COLOR = new Color(1,1,1,0.5f);
             icon.sprite = shopItems[0].effects[0].icon;
+            ShopMenu.Instance.OnOpenMenu  += CheckColor;
+            ShopMenu.Instance.OnUpdateShop += CheckColor;
+        }
+
+        private void CheckColor()
+        {
+            if(currentItemIndex < shopItems.Count) 
+            {
+                costText.text = shopItems[currentItemIndex].cost.ToString();
+                currencyIcon.sprite = ShopMenu.Instance.currencyIcons[shopItems[currentItemIndex].currencyType];
+
+                if(StaticGameStats.GetCurrencyValue(shopItems[currentItemIndex].currencyType) >= shopItems[currentItemIndex].cost)
+                {
+                    costText.color = StaticGameStats.GetCurrencyColor(shopItems[currentItemIndex].currencyType);
+                }
+                else costText.color = Color.black;
+            }
+            else 
+            {
+                canInteract = false;
+                costText.text = "MAX";
+                costText.color = Color.black;
+            }
         }
 
         public override void NavigateTo()
@@ -45,6 +67,7 @@ namespace RobbieWagnerGames.Plinko
             icon.color = Color.white;
             currencyIcon.color = Color.white;
             background.color = Color.white;
+            costText.color = 
             costText.color = new Color(costText.color.r, costText.color.g, costText.color.b, 1f);
             canInteract = true;
         }
@@ -61,30 +84,15 @@ namespace RobbieWagnerGames.Plinko
         public override IEnumerator SelectButton(Menu menu)
         {
             yield return StartCoroutine(base.SelectButton(menu));
-            if(canInteract)
+            if(canInteract && currentItemIndex < shopItems.Count)
             {
                 bool purchased = shopItems[currentItemIndex].Buy();
 
                 if(purchased)
                 {
-                    Debug.Log("purchase");
-                    if(currentItemIndex < shopItems.Count - 1) 
-                    {
-                        currentItemIndex++;
-                        costText.text = shopItems[currentItemIndex].cost.ToString();
-
-                        if(StaticGameStats.GetCurrencyValue(shopItems[currentItemIndex].currencyType) >= shopItems[currentItemIndex].cost)
-                        {
-                            costText.color = StaticGameStats.GetCurrencyColor(shopItems[currentItemIndex].currencyType);
-                        }
-                        else costText.color = Color.black;
-                    }
-                    else 
-                    {
-                        canInteract = false;
-                        costText.text = "MAX";
-                        costText.color = Color.black;
-                    }
+                    currentItemIndex++;
+                    CheckColor();
+                    ShopMenu.Instance.UpdateShop();
                 }
             }
         }

@@ -105,10 +105,10 @@ MonoBehaviour:
   unitAnimator: {fileID: 8429203582795169237}
   pointValue: 50
   leafGain: 5
-  gainedLeaves: 0
+  bouncedOnce: 0
   rb2d: {fileID: 8920543890723354559}
   coll: {fileID: 2910949679929884128}
-  bumpLimit: 10000000
+  canFall: 0
 --- !u!114 &8429203582795169237
 MonoBehaviour:
   m_ObjectHideFlags: 0

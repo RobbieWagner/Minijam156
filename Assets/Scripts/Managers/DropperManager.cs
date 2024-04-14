@@ -9,13 +9,31 @@ namespace RobbieWagnerGames.Plinko
     {
         public List<DropperSegment> unlockedSegments;
         private List<DropperSegment> currentSegments;
-        public int middleSegmentCount = 1;
+        private int middleSegmentCount = 1;
+        public int MiddleSegmentCount
+        {
+            get { return middleSegmentCount; }
+            set
+            {
+                if(middleSegmentCount == value)
+                    return;
+
+                middleSegmentCount = value;
+                if(DropperBall.Instance.currentDropState != DropState.FALLING && DropperBall.Instance.currentDropState != DropState.FLOATING)
+                {
+                    ResetDropper();
+                }
+            }
+        }
         [SerializeField] private DropperSegment topPrefab;
         [SerializeField] private DropperSegment bottomPrefab;
         [SerializeField] private DropperSegment topInstance;
         [SerializeField] private DropperSegment bottomInstance;
+        [SerializeField] public PhysicsMaterial2D bounceMat;
+        [HideInInspector] public int specialRowChance = 5;
+        public float initialBounciness = .75f;
 
-        private float dropperHeight = 0;
+        [HideInInspector] public float dropperHeight = 0;
         private float topYValue = 0;
 
 
@@ -34,6 +52,7 @@ namespace RobbieWagnerGames.Plinko
 
             GameManager.Instance.OnReset += ResetDropper;
             currentSegments = new List<DropperSegment>();
+            bounceMat.bounciness = initialBounciness;
         }
 
         private void ResetDropper()
@@ -63,9 +82,15 @@ namespace RobbieWagnerGames.Plinko
             topInstance = Instantiate(topPrefab, transform);
             bottomInstance = Instantiate(bottomPrefab, transform);
 
+            List<DropperSegment> specialRows = unlockedSegments.Where(segment => segment.special).ToList();
+            List<DropperSegment> basicRows = unlockedSegments.Where(segment => !segment.special).ToList();
+
             while(currentSegments.Count < middleSegmentCount && unlockedSegments.Any())
             {
-                currentSegments.Add(Instantiate(unlockedSegments[Random.Range(0, unlockedSegments.Count)], transform));
+                if(specialRows.Any() && Random.Range(0, 100) < specialRowChance)
+                    currentSegments.Add(Instantiate(specialRows[Random.Range(0, specialRows.Count)], transform));
+                else
+                    currentSegments.Add(Instantiate(basicRows[Random.Range(0, basicRows.Count)], transform));
             }
 
             topInstance.transform.position = Vector2.zero;

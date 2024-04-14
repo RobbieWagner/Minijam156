@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using RobbieWagnerGames.Managers;
 using RobbieWagnerGames.Common;
+using System;
+using UnityEngine.UIElements;
 
 namespace RobbieWagnerGames.Plinko
 {
@@ -19,6 +21,9 @@ namespace RobbieWagnerGames.Plinko
             && !ShopMenu.Instance.isOn
             && startedGame;
         public bool startedGame = false;
+        [HideInInspector] public float eventChance = 1;
+
+        [SerializeField] private List<SpecialEvent> specialEvents;
         
         private Coroutine finishRunCo = null;
         
@@ -38,6 +43,7 @@ namespace RobbieWagnerGames.Plinko
             playerControls.Menu.PauseGame.performed += PauseGame;
             playerControls.Enable();
             mainMenuCanvas.enabled = true;
+            eventChance = 1;
         }
 
         private void StartGame(InputAction.CallbackContext context)
@@ -48,8 +54,25 @@ namespace RobbieWagnerGames.Plinko
                 startedGame = true;
                 ResetLevel();
                 mainMenuCanvas.enabled = false;
+                DropperBall.Instance.OnLeaveState += CheckIfWasWaiting;
             }
             
+        }
+
+        private void CheckIfWasWaiting(DropState state)
+        {
+            if(state == DropState.WAITING)
+            {
+                if(UnityEngine.Random.Range(0, 100) < eventChance)
+                {
+                    SpawnEvent();
+                }
+            }
+        }
+
+        private void SpawnEvent()
+        {
+            Instantiate(specialEvents[UnityEngine.Random.Range(0, specialEvents.Count)]);
         }
 
         public void FinishRun()
@@ -61,7 +84,7 @@ namespace RobbieWagnerGames.Plinko
         private IEnumerator FinishRunCo()
         {
             OnFinishRun?.Invoke();
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             yield return StartCoroutine(UIManager.Instance.FadeInScreenCover());
             ResetLevel();
             yield return StartCoroutine(UIManager.Instance.FadeOutScreenCover());

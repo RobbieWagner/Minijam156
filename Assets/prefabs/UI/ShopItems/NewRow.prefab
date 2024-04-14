@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 6788825262795530201}
   - component: {fileID: 7565818409820221205}
   m_Layer: 0
-  m_Name: MovePowerShopButton
+  m_Name: NewRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,20 +531,19 @@ MonoBehaviour:
   parentMenu: {fileID: 0}
   nameText: {fileID: 0}
   shopItems:
-  - {fileID: 11400000, guid: d2a6d6d591e48434f9b9c0d827927672, type: 2}
-  - {fileID: 11400000, guid: 908057ef12b087b468877540c3d19676, type: 2}
-  - {fileID: 11400000, guid: 47e64a19bddf7c643bf4c1ead4b8f4de, type: 2}
-  - {fileID: 11400000, guid: 440e1733613669d47be8736cb217382d, type: 2}
-  - {fileID: 11400000, guid: c0d65891b3a106248885e7db38bf9a06, type: 2}
-  - {fileID: 11400000, guid: f6cc5c9c3fc5a264fb18b9468d27ecfe, type: 2}
-  - {fileID: 11400000, guid: 7f52174925742624bab9ce173e181626, type: 2}
-  - {fileID: 11400000, guid: 8b6fa99728790aa4fb882b9aa947e9a4, type: 2}
-  - {fileID: 11400000, guid: d663adbd259291345adb908bd02a6b5c, type: 2}
-  - {fileID: 11400000, guid: e40f5162a03cb9945b48220acc1befe3, type: 2}
+  - {fileID: 11400000, guid: 946dee275f98d004a83036bba49d9b5a, type: 2}
+  - {fileID: 11400000, guid: 23cfe6237b66f504282a815e3ebd3d63, type: 2}
+  - {fileID: 11400000, guid: 1858c95e52fe3ff4291d307873da57c6, type: 2}
+  - {fileID: 11400000, guid: 3c28a853bdc04e748b7efcd71c93e445, type: 2}
+  - {fileID: 11400000, guid: 3bb2f2271250b9743b55ea82e954636a, type: 2}
+  - {fileID: 11400000, guid: 0f837c6cfe28d2a4aabc726f77a17cbc, type: 2}
   currentItemIndex: 0
   shop: {fileID: 0}
   costText: {fileID: 8207644932264422466}
   icon: {fileID: 1831781447995374466}
   currencyIcon: {fileID: 477757171053504358}
   background: {fileID: 7274274908914058067}
+  itemDescription: 'Unlocks a new dropper segment
+
+'
   canInteract: 0

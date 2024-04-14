@@ -25,7 +25,7 @@ namespace RobbieWagnerGames.Plinko
         public static event StaticValueChangedDelegate OnScoreChanged;
 
         private static int highScore = 0;
-        private static int HighScore
+        public static int HighScore
         {
             get => highScore; 
             set 
@@ -125,5 +125,7 @@ namespace RobbieWagnerGames.Plinko
             }
             return Color.white;
         }
+
+        public static int bumpLimit = 2;
     }
 }

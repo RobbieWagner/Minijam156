@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5d7f48eeda7c948810452bf6b3a011, type: 3}
+  m_Name: Event 3
+  m_EditorClassIdentifier: 
+  _name: 
+  cost: 10000
+  currencyType: 1
+  effects:
+  - rid: 5890670160688709641
+  references:
+    version: 2
+    RefIds:
+    - rid: 5890670160688709641
+      type: {class: UpgradeEventChance, ns: , asm: Assembly-CSharp}
+      data:
+        magnitude: 8
+        associatedColor: {r: 0, g: 0.7490196, b: 0, a: 1}
+        icon: {fileID: 0}
